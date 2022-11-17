@@ -21,8 +21,7 @@ class _MyDisplayPageState extends State<MyDisplayPage> {
       ),
       drawer: displayDrawer.display(context),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: <Widget>[
             for (var budgetItem in SavedData.budgetRepo)
               Center(
