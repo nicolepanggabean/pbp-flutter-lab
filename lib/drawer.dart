@@ -18,7 +18,7 @@ class displayDrawer {
             },
           ),
           ListTile(
-            title: const Text('App Budget Info'),
+            title: const Text('Add Budget Info'),
             onTap: () {
               Navigator.pushReplacement(
                 context,
