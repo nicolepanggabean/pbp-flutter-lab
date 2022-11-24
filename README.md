@@ -100,3 +100,47 @@ I created a drawer by following the basic structure of the code from tutorial 7.
 I then created a new file, form.dart, to create the form. I created a Form() widget in the body that contains various other formatting and sizing widgets. Then, I created a TextFormField for the title, using the hintText, icon, labelText, and border parameters for formatting. I also intialized an empty string for the title to handle the onChanged and onSaved functions. The total amount input was similar, but I added a text filter to only allow numbers. Then, I parsed the String values in onChanged and onSaved to convert it to an integer. For the dropdown, I created a dropdown button with an icon and hint text. I also included the onChanged value to ensure it displays the desired value. Finally, I created a text button to save the data into a list. I created a dialog box that would show when the user clicks on save.
 
 I also created another file to display the data, display.dart. In this file, I created a ListView object and used a for loop to create cards for each item in the list. I displayed its title as well as its price and type.
+
+
+# Assignment 9
+
+1. Can we retrieve JSON data without creating a model first? If yes, is it better than creating a model before retrieving JSON data?
+
+It is possible to do so by decoding the JSON inline using jsonDecode(). However, this returns a Map<String, dynamic>, which means that the types of the values remain unknown until runtime. Thus, it is better to create a model first, as data types can be defined.
+
+
+2. List the widgets that you used in this project and explain their functions.
+
+Note: The following listed widgets are excluding the ones already used and explained in Assignment 8.
+
+FutureBuilder: A widget that is based on the most recent snapshot of a Future, which is the result of an asynchronous function. In this case, the FutureBuilder is used for displaying the watchlist, as the data is fetched and displayed asynchronously. This also includes the checkbox feature that the user can interact with asynchronously as well.
+
+RichText: Can display text (in one line) with different styles. This is used to display the data in the details page, where some parts of the text are shown in bold, and others are not.
+
+TextSpan: RichText uses TextSpan objects to display the written text, in which the stylization is defined.
+
+Expanded: Expands to fill the available space.
+
+Align: Used to align objects. In this case, it is used to align the button at the bottom of the page using FractionalOffset.
+
+ElevatedButton: A button that is "elevated". Used for the "back" button on the details page.
+
+
+3. Explain the mechanism of retrieving data from json so it can be shown in Flutter.
+
+To prepare for making HTTP requests, the http package must first be installed. The flutter application should also be provided access to the internet. Once done so, the data (given a URL) is parsed using Uri.parse() and http.get(). The response of the http.get() method is then decoded into JSON, which is then retrieved using the .formJson() method.
+
+
+4. Explain how you implemented the checklist above.
+
+First, I rearranged my files (with the exception of main.dart) into two separate folders: page, and model. Then, I created a new mywatchlist page within the page folder. I then imported the page in the drawer.dart and added a new ListTile object so users can navigate to the watchlist page.
+
+Then, I created the mywatchlist model page to retrieve the JSON data and convert it. I first used Quicktype to convert the JSON data, but I altered it. This is because the JSON data used for Assignment 3 had the information stored in the sub-field of "fields". Thus, I discarded the "model" and "pk" sub-fields. While iterating through the data, I made sure to only convert the "fields" part of the JSON data.
+
+Then, in the mywatchlist page, I used the FutureBuilder widget to retrieve the latest snapshot of the data and display it asynchronously. I created a card for each data item and utilized a ListTile with a Checkbox as a trailing attribute (to determine whether the movie has been watched or not). I set the initial value to the boolean value from the JSON data. In the onChanged value, I set the new state to the opposite of what it was before (if it was true, it would change to false, and vice versa).
+
+To change the border color, I used a RoundedRectangleBorder as the ListTile's shape, and I used BorderSide to set the border color. I created a function, getBorderColor() that takes in a boolean value and returns a green color if true, and a red color if false. I used the result of this function to set the border color.
+
+The ListTile widget also has an onTap() event, which pushes the Movie Details page. The Movie Details page takes in a "movie" object, which is essentially the entirety of the data item.
+
+The Movie Details Page uses a Padding and Column for the basic formatting. I also used SizedBox and RichTexts to customize the formatting of the displayed data. I then added a button aligned to the bottom of the screen.
